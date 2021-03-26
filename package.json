@@ -1,0 +1,9 @@
+{
+  "name": "gemini-client",
+  "version": "0.0.1",
+  "description": "A NodeJS client library for the Gemini API",
+  "main": "dist/index.js",
+  "repository": "git@github.com:jimboslicethat/gemini-client.git",
+  "author": "James Walsh <james.walsh@hey.com>",
+  "license": "GNU"
+}
