@@ -15,7 +15,7 @@ A NodeJS wrapper for the Gemini API
    - The API Key will need a `Master` scope to be able to place trades.
    - Select `Trading` & `Auditor` in the API Key Settings.
 
-1. Step 1 will give you both an "API Key" that will serve as your user name, and an "API Secret" that the package uses to sign messages.
+1. Step 1 will give you both an "API Key" that will serve as both your user name, and an "API Secret" that Gemini uses to sign messages.
 1. Needless to say, **please keep this API key somewhere secret and safe**. It's your funds, your coins, your responsibility to protect. It is recommended that you pass your API key to the lib via an environment variable and don't leave it hardcoded anywhere _(I recommend using [dotenv](https://www.npmjs.com/package/dotenv))_.
 
 ### Basic Setup
