@@ -1,10 +1,10 @@
 # gemini-client
 
+A NodeJS client library for the [Gemini API](https://docs.gemini.com/rest-api/)
+
 ![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.png?v=101)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=102)](https://opensource.org/licenses/GPL-3.0/)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
-
-A NodeJS client library for the [Gemini API](https://docs.gemini.com/rest-api/)
 
 ## Install
 
