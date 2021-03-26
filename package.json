@@ -5,5 +5,11 @@
   "main": "dist/index.js",
   "repository": "git@github.com:jimboslicethat/gemini-client.git",
   "author": "James Walsh <james.walsh@hey.com>",
-  "license": "GNU"
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "4.2.3"
+  }
 }
