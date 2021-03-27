@@ -1,21 +1,19 @@
 import * as uuid from 'uuid'
 
 import logger from './logger'
-
-enum Tickers {
-  BitcoinUSD = 'btcusd'
-}
+import { SupportedTickerSymbols } from './types'
 
 export default function run() {
-  const payload = createBuyOrderPayload(Tickers.BitcoinUSD, '0.01', '3633.00')
+  const payload = createBuyOrderPayload('btcusd', '0.01', '3633.00')
   logger.info('Executing by order using payload:', payload)
 
   const encodedPayload = encodeGeminiPayload(payload)
+  console.log('encoded payload:', encodedPayload)
 
   return encodedPayload
 }
 
-const createBuyOrderPayload = (symbol: Tickers, amount: string, price: string) => ({
+const createBuyOrderPayload = (symbol: SupportedTickerSymbols, amount: string, price: string) => ({
   request: '/v1/order/new',
   nonce: Date.now(),
   client_order_id: uuid.v4(),
