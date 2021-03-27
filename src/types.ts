@@ -57,7 +57,7 @@ export type SupportedTickerSymbols =
   | 'lrcusd'
   | 'sandusd'
 
-export type OrderOptions =
+export type OrderExecutionType =
   | 'maker-or-cancel'
   | 'immediate-or-cancel'
   | 'fill-or-kill'
@@ -76,7 +76,7 @@ export interface OrderPayload {
   type: OrderType
   minAmount?: string
   stopPrice?: string
-  options?: OrderOptions[]
+  options?: OrderExecutionType[]
 }
 
 export interface OrderParams {

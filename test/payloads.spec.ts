@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 
+import { OrderExecutionType } from '../src/types'
 import * as subject from '../src/payloads'
 
 describe('payloads', () => {
@@ -45,6 +46,61 @@ describe('payloads', () => {
       const actual = subject.createBuyOrderPayload(symbol, amount, price)
 
       expect(actual.type).to.eql('exchange limit')
+    })
+
+    context('when given optional parameters', () => {
+      it('includes the minAmount', () => {
+        const minAmount = amount - 0.1
+        const actual = subject.createBuyOrderPayload(symbol, amount, price, orderType, {
+          minAmount
+        })
+
+        expect(actual.type).to.eql('exchange limit')
+
+        expect(actual.minAmount).to.eql(minAmount.toString())
+      })
+
+      it('includes the stopPrice', () => {
+        const stopPrice = '1,683.00'
+        const orderType = 'exchange stop limit'
+        const actual = subject.createBuyOrderPayload(symbol, amount, price, orderType, {
+          stopPrice
+        })
+
+        expect(actual.stopPrice).to.eql(stopPrice)
+      })
+
+      it('includes an array of length(1) for the order execution type', () => {
+        const executionTypes: OrderExecutionType[] = [
+          'maker-or-cancel',
+          'immediate-or-cancel',
+          'fill-or-kill',
+          'auction-only',
+          'indication-of-interest'
+        ]
+
+        executionTypes.forEach(executionType => {
+          const actual = subject.createBuyOrderPayload(symbol, amount, price, orderType, {
+            executionType
+          })
+
+          expect(actual.options.length).to.eql(1)
+          expect(actual.options[0]).to.eql(executionType)
+        })
+      })
+
+      it('throws error when given stopPrice but order type is incorrect', () => {
+        const stopPrice = '1,683.00'
+        const orderType = 'exchange limit'
+        const incorrectCall = () =>
+          subject.createBuyOrderPayload(symbol, amount, price, orderType, {
+            stopPrice
+          })
+
+        expect(incorrectCall).to.throw(
+          `When given a stopPrice the order type must be 'exchange stop limit'`
+        )
+      })
     })
   })
 
