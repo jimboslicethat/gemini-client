@@ -1,15 +1,21 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+import { base64Encode, generateHash } from './crypto'
+import { ExternalOrderPayload } from './types'
+
 export async function postNewOrderRequest(
   apiKey: string,
-  encodedPayload: string
+  payload: ExternalOrderPayload
 ): Promise<AxiosResponse> {
-  return axios.post('/order/new', null, getRequestConfig(apiKey, encodedPayload))
+  return axios.post('/order/new', null, getRequestConfig(apiKey, payload))
 }
 
 /* private */
 
-function getRequestConfig(apiKey: string, encodedPayload: string): AxiosRequestConfig {
+function getRequestConfig(apiKey: string, payload: ExternalOrderPayload): AxiosRequestConfig {
+  const encodedPayload = base64Encode(payload)
+  const hashedSignature = generateHash(encodedPayload, apiKey)
+
   return {
     baseURL:
       process.env.NODE_ENV === 'production'
@@ -18,7 +24,7 @@ function getRequestConfig(apiKey: string, encodedPayload: string): AxiosRequestC
     headers: {
       'X-GEMINI-APIKEY': apiKey,
       'X-GEMINI-PAYLOAD': encodedPayload,
-      'X-GEMINI-SIGNATURE': null as string // ! TODO: once the crypto module is fleshed out create a valid signature here.
+      'X-GEMINI-SIGNATURE': hashedSignature
     }
   }
 }
