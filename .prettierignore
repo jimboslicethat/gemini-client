@@ -1,0 +1,6 @@
+dist
+coverage
+tsconfig.json
+README.md
+package.json
+.prettierrc.json
