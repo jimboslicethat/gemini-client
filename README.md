@@ -32,10 +32,24 @@ A NodeJS client library for the [Gemini API](https://docs.gemini.com/rest-api/)
 console.log("TODO: Setup documentation James");
 ```
 
-## Development Prerequisites
+## Development
+
+### Dev Prerequisites
 
 - Go to Gemini's [sandbox site](https://exchange.sandbox.gemini.com/) to register for a test account.
 - Generate an API key for the sandbox account that matches scopes with the API key you will use in the real world _(see Usage > Pre Reqs)_.
+
+### Setup
+
+1. Create a new `.env` file and add your API key. This environment variable will be used in the test suite for testing against the Gemini sandbox. You can view the `.env.example` for more info.
+
+### To Run Tests 🧪
+
+```sh
+yarn test
+# or
+yarn test:watch
+```
 
 ## References
 
