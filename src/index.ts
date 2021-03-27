@@ -1,12 +1,14 @@
 import * as uuid from 'uuid'
 
+import logger from './logger'
+
 enum Tickers {
   BitcoinUSD = 'btcusd'
 }
 
 export default function run() {
   const payload = createBuyOrderPayload(Tickers.BitcoinUSD, '0.01', '3633.00')
-  console.log('payload:', payload)
+  logger.info("Executing by order using payload:", payload)
 
   const encodedPayload = encodeGeminiPayload(payload)
 
@@ -27,7 +29,6 @@ const createBuyOrderPayload = (symbol: Tickers, amount: string, price: string) =
 function encodeGeminiPayload<T>(payload: T) {
   const buffer = Buffer.from(JSON.stringify(payload))
   const encodedPayload = buffer.toString('base64')
-  console.log('encodedPayload:', encodedPayload)
 
   return encodedPayload
 }
@@ -36,7 +37,6 @@ run()
 
 /* TODOS:
  * Put this in a list outside of the codebase
- * Add a logger.
  * Add a testing framework to start TDDing this solution.
  * Decide on initial API.
  * Prettier
