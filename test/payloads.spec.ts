@@ -104,34 +104,18 @@ describe('payloads', () => {
     })
   })
 
-  describe('#encodePayload', () => {
-    const decodeHelper = (data: string) => {
-      const buffer = Buffer.from(data, 'base64')
-      const jsonString = buffer.toString('ascii')
-
-      return JSON.parse(jsonString)
-    }
-
-    it('converts the payload to base64 encoded JSON', () => {
-      const payload = subject.createBuyOrderPayload('btcusd', 1, '55,000')
-
-      const regex = new RegExp(/[A-Za-z0-9+/=]/)
-      const actual = subject.encodePayload(payload)
-
-      expect(regex.test(actual)).to.be.true
-    })
-
-    it('converts camelCase properties to snake_case before encoding', () => {
+  describe('#mapInternalToExternal', () => {
+    it('converts camelCase properties to snake_case', () => {
       const payload = subject.createBuyOrderPayload('btcusd', 1, '55,000', 'exchange stop limit', {
         minAmount: 1,
         stopPrice: '1,683.00'
       })
 
-      const decodedActual = decodeHelper(subject.encodePayload(payload))
+      const actual = subject.mapInternalToExternal(payload)
 
-      expect(decodedActual['client_order_id']).to.eql(payload.clientOrderId)
-      expect(decodedActual['min_amount']).to.eql(payload.minAmount)
-      expect(decodedActual['stop_price']).to.eql(payload.stopPrice)
+      expect(actual['client_order_id']).to.eql(payload.clientOrderId)
+      expect(actual['min_amount']).to.eql(payload.minAmount)
+      expect(actual['stop_price']).to.eql(payload.stopPrice)
     })
   })
 })

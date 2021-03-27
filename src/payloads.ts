@@ -39,11 +39,15 @@ export function createBuyOrderPayload(
   }
 }
 
-export function encodePayload(payload: OrderPayload): string {
-  const externalPayload = mapInternalToExternal(payload)
-  const buffer = Buffer.from(JSON.stringify(externalPayload))
+export function mapInternalToExternal(payload: OrderPayload): ExternalOrderPayload {
+  const { minAmount, stopPrice, clientOrderId, ...rest } = payload
 
-  return buffer.toString('base64')
+  return {
+    ...rest,
+    min_amount: minAmount && minAmount,
+    stop_price: stopPrice && stopPrice,
+    client_order_id: clientOrderId
+  }
 }
 
 /* private */
@@ -64,16 +68,5 @@ function getOptionalParameters(options: OrderPayloadOptions, orderType: OrderTyp
 function validateStopPriceOption(stopPrice: string, orderType: OrderType): void {
   if (stopPrice && orderType !== 'exchange stop limit') {
     throw new Error(`When given a stopPrice the order type must be 'exchange stop limit'`)
-  }
-}
-
-function mapInternalToExternal(payload: OrderPayload): ExternalOrderPayload {
-  const { minAmount, stopPrice, clientOrderId, ...rest } = payload
-
-  return {
-    ...rest,
-    min_amount: minAmount && minAmount,
-    stop_price: stopPrice && stopPrice,
-    client_order_id: clientOrderId
   }
 }
