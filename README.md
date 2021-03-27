@@ -1,5 +1,7 @@
 # gemini-client
 
+**🚨 WIP: unreleased 🚨**
+
 A NodeJS client library for the [Gemini API](https://docs.gemini.com/rest-api/)
 
 ![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.png?v=101)
