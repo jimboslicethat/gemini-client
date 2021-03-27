@@ -65,18 +65,27 @@ export type OrderExecutionType =
   | 'indication-of-interest'
 
 export type OrderType = 'exchange limit' | 'exchange stop limit'
-export interface OrderPayload {
+
+interface BaseOrderPayload {
   request: string
   nonce: number
-  clientOrderId: string
   symbol: SupportedTickerSymbols
   amount: string
   price: string
   side: 'buy' | 'sell'
   type: OrderType
+  options?: OrderExecutionType[]
+}
+export interface OrderPayload extends BaseOrderPayload {
+  clientOrderId: string
   minAmount?: string
   stopPrice?: string
-  options?: OrderExecutionType[]
+}
+
+export interface ExternalOrderPayload extends BaseOrderPayload {
+  client_order_id: string
+  min_amount?: string
+  stop_price?: string
 }
 
 export interface OrderParams {

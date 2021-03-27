@@ -1,6 +1,12 @@
 import * as uuid from 'uuid'
 
-import { OrderExecutionType, OrderPayload, OrderType, SupportedTickerSymbols } from './types'
+import {
+  ExternalOrderPayload,
+  OrderExecutionType,
+  OrderPayload,
+  OrderType,
+  SupportedTickerSymbols
+} from './types'
 
 export interface OrderPayloadOptions {
   minAmount?: number
@@ -33,8 +39,9 @@ export function createBuyOrderPayload(
   }
 }
 
-export function encodePayload<T>(payload: T): string {
-  const buffer = Buffer.from(JSON.stringify(payload))
+export function encodePayload(payload: OrderPayload): string {
+  const externalPayload = mapInternalToExternal(payload)
+  const buffer = Buffer.from(JSON.stringify(externalPayload))
 
   return buffer.toString('base64')
 }
@@ -57,5 +64,16 @@ function getOptionalParameters(options: OrderPayloadOptions, orderType: OrderTyp
 function validateStopPriceOption(stopPrice: string, orderType: OrderType): void {
   if (stopPrice && orderType !== 'exchange stop limit') {
     throw new Error(`When given a stopPrice the order type must be 'exchange stop limit'`)
+  }
+}
+
+function mapInternalToExternal(payload: OrderPayload): ExternalOrderPayload {
+  const { minAmount, stopPrice, clientOrderId, ...rest } = payload
+
+  return {
+    ...rest,
+    min_amount: minAmount && minAmount,
+    stop_price: stopPrice && stopPrice,
+    client_order_id: clientOrderId
   }
 }
