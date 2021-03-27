@@ -64,16 +64,19 @@ export type OrderOptions =
   | 'auction-only'
   | 'indication-of-interest'
 
+export type OrderType = 'exchange limit' | 'exchange stop limit'
 export interface OrderPayload {
   request: string
   nonce: number
+  clientOrderId: string
   symbol: SupportedTickerSymbols
   amount: string
   price: string
   side: 'buy' | 'sell'
-  type: string
+  type: OrderType
+  minAmount?: string
+  stopPrice?: string
   options?: OrderOptions[]
-  // TODO: add in optional params
 }
 
 export interface OrderParams {

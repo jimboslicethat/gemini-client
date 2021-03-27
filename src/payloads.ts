@@ -1,19 +1,26 @@
-import { OrderPayload, SupportedTickerSymbols } from './types'
+import * as uuid from 'uuid'
+
+import { OrderPayload, OrderType, SupportedTickerSymbols } from './types'
 
 export function createBuyOrderPayload(
   symbol: SupportedTickerSymbols,
-  amount: string,
-  price: string
+  amount: number,
+  price: string,
+  type = 'exchange limit'
 ): OrderPayload {
+  const nonce = Date.now()
+  const clientOrderId = uuid.v4()
+  const request = '/v1/order/new'
+
   return {
-    request: '/v1/order/new',
-    nonce: Date.now(),
-    //client_order_id: uuid.v4(), //TODO: how to handle snake_case stuff.
+    request,
+    nonce,
+    clientOrderId,
     symbol,
-    amount,
+    amount: amount.toString(),
     price,
     side: 'buy',
-    type: 'exchange limit'
+    type: type as OrderType
   }
 }
 
