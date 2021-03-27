@@ -1,41 +1,21 @@
-import * as uuid from 'uuid'
-
 import logger from './logger'
-import { SupportedTickerSymbols } from './types'
 
-export default function run() {
-  const payload = createBuyOrderPayload('btcusd', '0.01', '3633.00')
-  logger.info('Executing by order using payload:', payload)
+import { createBuyOrderPayload, encodePayload } from './payloads'
+import * as api from './api'
 
-  const encodedPayload = encodeGeminiPayload(payload)
-  console.log('encoded payload:', encodedPayload)
+export default async function main() {
+  const unencodedPayload = createBuyOrderPayload('btcusd', '0.01', '3633.00')
+  logger.info('Executing by order using payload:', unencodedPayload)
+  const encodedPayload = encodePayload(unencodedPayload)
 
-  return encodedPayload
+  await api.createNewOrder({ encodedPayload, apiKey: 'get-this-from-env' })
 }
 
-const createBuyOrderPayload = (symbol: SupportedTickerSymbols, amount: string, price: string) => ({
-  request: '/v1/order/new',
-  nonce: Date.now(),
-  client_order_id: uuid.v4(),
-  symbol,
-  amount,
-  price,
-  side: 'buy',
-  type: 'exchange limit'
-})
-
-function encodeGeminiPayload<T>(payload: T) {
-  const buffer = Buffer.from(JSON.stringify(payload))
-  const encodedPayload = buffer.toString('base64')
-
-  return encodedPayload
-}
-
-run()
-
-/* TODOS:
- * Put this in a list outside of the codebase
- * Add a testing framework to start TDDing this solution.
- * Decide on initial API.
- * Strat for publishing to NPM.
- */
+;(async () => {
+  try {
+    const res = await main()
+    console.log(res)
+  } catch (e) {
+    console.error(e)
+  }
+})()

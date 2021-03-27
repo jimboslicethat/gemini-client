@@ -56,3 +56,27 @@ export type SupportedTickerSymbols =
   | 'enjusd'
   | 'lrcusd'
   | 'sandusd'
+
+export type OrderOptions =
+  | 'maker-or-cancel'
+  | 'immediate-or-cancel'
+  | 'fill-or-kill'
+  | 'auction-only'
+  | 'indication-of-interest'
+
+export interface OrderPayload {
+  request: string
+  nonce: number
+  symbol: SupportedTickerSymbols
+  amount: string
+  price: string
+  side: 'buy' | 'sell'
+  type: string
+  options?: OrderOptions[]
+  // TODO: add in optional params
+}
+
+export interface OrderParams {
+  encodedPayload: string
+  apiKey: string
+}
