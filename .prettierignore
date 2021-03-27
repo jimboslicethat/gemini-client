@@ -3,4 +3,5 @@ coverage
 tsconfig.json
 README.md
 package.json
-.prettierrc.json
+yarn.lock
+node_modules.prettierrc.json

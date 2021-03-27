@@ -8,7 +8,7 @@ enum Tickers {
 
 export default function run() {
   const payload = createBuyOrderPayload(Tickers.BitcoinUSD, '0.01', '3633.00')
-  logger.info("Executing by order using payload:", payload)
+  logger.info('Executing by order using payload:', payload)
 
   const encodedPayload = encodeGeminiPayload(payload)
 
@@ -39,7 +39,5 @@ run()
  * Put this in a list outside of the codebase
  * Add a testing framework to start TDDing this solution.
  * Decide on initial API.
- * Prettier
- * conventional-commmits
  * Strat for publishing to NPM.
  */
