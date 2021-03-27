@@ -1,26 +1,24 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
-import { OrderParams } from './types'
+export async function postNewOrderRequest(
+  apiKey: string,
+  encodedPayload: string
+): Promise<AxiosResponse> {
+  return axios.post('/order/new', null, getRequestConfig(apiKey, encodedPayload))
+}
 
-const apiInstance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'production'
-      ? 'https://api.gemini.com/v1'
-      : 'https://api.sandbox.gemini.com/v1',
-  // TODO: make timeout configurable
-  timeout: 5000
-  // headers: {'X-Custom-Header': 'foobar'}
-})
+/* private */
 
-export async function createNewOrder({
-  encodedPayload,
-  apiKey
-}: OrderParams): Promise<AxiosResponse> {
-  return apiInstance.post('/order/new', null, {
+function getRequestConfig(apiKey: string, encodedPayload: string): AxiosRequestConfig {
+  return {
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? 'https://api.gemini.com/v1'
+        : 'https://api.sandbox.gemini.com/v1',
     headers: {
       'X-GEMINI-APIKEY': apiKey,
       'X-GEMINI-PAYLOAD': encodedPayload,
-      'X-GEMINI-SIGNATURE': 'signature' // TODO: what should the signature be?
+      'X-GEMINI-SIGNATURE': null as string // ! TODO: once the crypto module is fleshed out create a valid signature here.
     }
-  })
+  }
 }

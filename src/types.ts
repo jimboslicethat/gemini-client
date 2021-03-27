@@ -87,8 +87,3 @@ export interface ExternalOrderPayload extends BaseOrderPayload {
   min_amount?: string
   stop_price?: string
 }
-
-export interface OrderParams {
-  encodedPayload: string
-  apiKey: string
-}
